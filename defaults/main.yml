@@ -4,10 +4,10 @@ nutanix_host: ""
 nutanix_username: ""
 nutanix_password: ""
 nutanix_port: 9440
-validate_certs: no
-nutanix_debug: no
+validate_certs: false
+nutanix_debug: false
 nutanix_task_uuid: ""
 nutanix_task_retries: 60
 nutanix_task_retry_delay: 60
-nutanix_task_allow_failure: no
-play_fail_on_nutanix_task_failure: yes
+nutanix_task_allow_failure: false
+play_fail_on_nutanix_task_failure: true

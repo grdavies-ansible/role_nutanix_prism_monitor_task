@@ -1,6 +1,6 @@
 ---
 - name: "Monitoring PC task {{ nutanix_task_uuid }}"
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ nutanix_host }}:{{ nutanix_port }}/api/nutanix/v3/tasks/{{ nutanix_task_uuid }}"
     method: GET
     validate_certs: "{{ validate_certs }}"
@@ -13,12 +13,14 @@
   retries: "{{ nutanix_task_retries }}"
   delay: "{{ nutanix_task_retry_delay }}"
 
-- name: "PC task {{ nutanix_task_uuid }} failed"
+- name: "PC task failed {{ nutanix_task_uuid }}."
   ansible.builtin.fail:
-    msg: "{{ monitored_task.json.operation_type }} failed at {{ monitored_task.json.percentage_complete }}%. Message: {{ monitored_task.json.progress_message }}"
+    msg:
+      "{{ monitored_task.json.operation_type }} failed at {{ monitored_task.json.percentage_complete }}%. \
+      Message: {{ monitored_task.json.progress_message }}"
   when: monitored_task.json.status | lower == 'failed'
 
-- name: "PC task {{ nutanix_task_uuid }} succeeded"
+- name: "PC task succeeded {{ nutanix_task_uuid }}."
   ansible.builtin.debug:
     msg: "{{ monitored_task.json.operation_type }} succeeded. Message: {{ monitored_task.json.progress_message }}"
   when:

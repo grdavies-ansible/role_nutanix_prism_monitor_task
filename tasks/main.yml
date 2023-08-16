@@ -1,6 +1,7 @@
 ---
 # tasks file for role_nutanix_prism_monitor_task
-- include_tasks: setup_api.yml
+- name: Setup connection to Nutanix API
+  ansible.builtin.include_tasks: setup_api.yml
 
 - name: Debug variables
   ansible.builtin.debug:
@@ -12,16 +13,18 @@
   when:
     - nutanix_debug
 
-- name: Var nutanix_task_uuid not defined or is empty
+- name: Nutanix_task_uuid not defined or is empty
   ansible.builtin.fail:
     msg: "nutanix_task_uuid must be defined"
   when:
     - nutanix_task_uuid == '' or not nutanix_task_uuid
 
-- include_tasks: pe_monitor_task.yml
+- name: Monitor PE Task
+  ansible.builtin.include_tasks: pe_monitor_task.yml
   when:
     - nutanix_endpoint_prism_type == 'pe'
 
-- include_tasks: pc_monitor_task.yml
+- name: Monitor PC Task
+  ansible.builtin.include_tasks: pc_monitor_task.yml
   when:
     - nutanix_endpoint_prism_type == 'pc'
