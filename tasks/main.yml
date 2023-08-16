@@ -1,0 +1,27 @@
+---
+# tasks file for role_nutanix_prism_monitor_task
+- include_tasks: setup_api.yml
+
+- name: Debug variables
+  ansible.builtin.debug:
+    var: "{{ item }}"
+  loop:
+    - nutanix_task_uuid
+    - nutanix_task_retries
+    - nutanix_task_retry_delay
+  when:
+    - nutanix_debug
+
+- name: Var nutanix_task_uuid not defined or is empty
+  ansible.builtin.fail:
+    msg: "nutanix_task_uuid must be defined"
+  when:
+    - nutanix_task_uuid == '' or not nutanix_task_uuid
+
+- include_tasks: pe_monitor_task.yml
+  when:
+    - nutanix_endpoint_prism_type == 'pe'
+
+- include_tasks: pc_monitor_task.yml
+  when:
+    - nutanix_endpoint_prism_type == 'pc'
