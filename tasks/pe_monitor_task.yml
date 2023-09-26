@@ -1,26 +1,30 @@
 ---
-- name: "Monitoring PE task {{ nutanix_task_uuid }}"
+- name: "Monitoring PE task {{ role_nutanix_prism_monitor_task_uuid }}"
   ansible.builtin.uri:
-    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/PrismGateway/services/rest/v2.0/tasks/{{ nutanix_task_uuid }}"
+    url: "https://{{ role_nutanix_prism_api_url_base }}/PrismGateway/services/rest/v2.0/tasks/{{ role_nutanix_prism_monitor_task_uuid }}"
     method: GET
-    validate_certs: "{{ validate_certs }}"
+    validate_certs: "{{ role_nutanix_prism_monitor_task_validate_certs }}"
     status_code: 200
     headers:
-      Authorization: "{{ nutanix_api_auth }}"
-  ignore_errors: "{{ nutanix_task_allow_failure }}"
-  register: monitored_task
-  until: monitored_task.json.progress_status | default('')  | lower == 'succeeded' or monitored_task.json.progress_status | default('') | lower  == 'failed'
-  retries: "{{ nutanix_task_retries }}"
-  delay: "{{ nutanix_task_retry_delay }}"
+      Authorization: "{{ role_nutanix_prism_api_auth_string_b64 }}"
+  ignore_errors: "{{ role_nutanix_prism_monitor_task_allow_failure }}"
+  register: role_nutanix_prism_monitor_task_result
+  until: >
+    role_nutanix_prism_monitor_task_result.json.progress_status | default('') | lower == 'succeeded' or
+    role_nutanix_prism_monitor_task_result.json.progress_status | default('') | lower  == 'failed'
+  retries: "{{ role_nutanix_prism_monitor_task_retries }}"
+  delay: "{{ role_nutanix_prism_monitor_task_retry_delay }}"
 
-- name: "PE task failed {{ nutanix_task_uuid }}."
+- name: "PE task failed {{ role_nutanix_prism_monitor_task_uuid }}."
   ansible.builtin.fail:
-    msg: "{{ monitored_task.json.operation_type }} failed at {{ monitored_task.json.percentage_complete }}%. Message: {{ monitored_task.json.message }}"
-  when: monitored_task.json.progress_status | lower == 'failed'
+    msg:
+      "{{ role_nutanix_prism_monitor_task_result.json.operation_type }} failed at {{ role_nutanix_prism_monitor_task_result.json.percentage_complete }}%. \
+      Message: {{ role_nutanix_prism_monitor_task_result.json.message }}"
+  when: role_nutanix_prism_monitor_task_result.json.progress_status | lower == 'failed'
 
-- name: "PE task succeeded {{ nutanix_task_uuid }}."
+- name: "PE task succeeded {{ role_nutanix_prism_monitor_task_uuid }}."
   ansible.builtin.debug:
-    msg: "{{ monitored_task.json.operation_type }} succeeded. Message: {{ monitored_task.json.message }}"
+    msg: "{{ role_nutanix_prism_monitor_task_result.json.operation_type }} succeeded. Message: {{ role_nutanix_prism_monitor_task_result.json.message }}"
   when:
-    - monitored_task.json.progress_status | lower == 'succeeded'
-    - play_fail_on_nutanix_task_failure
+    - role_nutanix_prism_monitor_task_result.json.progress_status | lower == 'succeeded'
+    - role_nutanix_prism_monitor_task_allow_failure

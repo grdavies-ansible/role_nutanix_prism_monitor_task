@@ -1,30 +1,38 @@
 ---
 # tasks file for role_nutanix_prism_monitor_task
 - name: Setup connection to Nutanix API
-  ansible.builtin.include_tasks: setup_api.yml
+  ansible.builtin.include_role:
+    name: grdavies.role_nutanix_prism_api
+  vars:
+    role_nutanix_prism_api_host: "{{ role_nutanix_prism_monitor_task_host }}"
+    role_nutanix_prism_api_username: "{{ role_nutanix_prism_monitor_task_username }}"
+    role_nutanix_prism_api_password: "{{ role_nutanix_prism_monitor_task_password }}"
+    role_nutanix_prism_api_port: "{{ role_nutanix_prism_monitor_task_port }}"
+    role_nutanix_prism_api_validate_certs: "{{ role_nutanix_prism_monitor_task_validate_certs }}"
+    role_nutanix_prism_api_debug: "{{ role_nutanix_prism_monitor_task_debug }}"
 
 - name: Debug variables
   ansible.builtin.debug:
     var: "{{ item }}"
   loop:
-    - nutanix_task_uuid
-    - nutanix_task_retries
-    - nutanix_task_retry_delay
+    - role_nutanix_prism_monitor_task_uuid
+    - role_nutanix_prism_monitor_task_retries
+    - role_nutanix_prism_monitor_task_retry_delay
   when:
-    - nutanix_debug
+    - role_nutanix_prism_monitor_task_debug
 
-- name: Nutanix_task_uuid not defined or is empty
+- name: Error role_nutanix_prism_monitor_task_uuid not defined or is empty
   ansible.builtin.fail:
-    msg: "nutanix_task_uuid must be defined"
+    msg: "role_nutanix_prism_monitor_task_uuid must be defined"
   when:
-    - nutanix_task_uuid == '' or not nutanix_task_uuid
+    - role_nutanix_prism_monitor_task_uuid == '' or not role_nutanix_prism_monitor_task_uuid
 
 - name: Monitor PE Task
   ansible.builtin.include_tasks: pe_monitor_task.yml
   when:
-    - nutanix_endpoint_prism_type == 'pe'
+    - role_nutanix_prism_api_endpoint_type == 'pe'
 
 - name: Monitor PC Task
   ansible.builtin.include_tasks: pc_monitor_task.yml
   when:
-    - nutanix_endpoint_prism_type == 'pc'
+    - role_nutanix_prism_api_endpoint_type == 'pc'

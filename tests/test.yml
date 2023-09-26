@@ -4,8 +4,8 @@
   roles:
     - role: ../..
   vars:
-    nutanix_host: 10.38.25.37
-    nutanix_username: admin
-    nutanix_password: nx2Tech987!
-    nutanix_task_uuid: 523bd2ac-74b2-406a-71d4-9b81d985574a
-    nutanix_debug: True
+    role_nutanix_prism_monitor_task_host: 10.38.11.199
+    role_nutanix_prism_monitor_task_username: admin
+    role_nutanix_prism_monitor_task_password: nx2Tech682!
+    role_nutanix_prism_monitor_task_uuid: 523bd2ac-74b2-406a-71d4-9b81d985574a
+    # role_nutanix_prism_monitor_task_debug: True
