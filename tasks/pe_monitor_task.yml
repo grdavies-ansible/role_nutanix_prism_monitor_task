@@ -3,7 +3,7 @@
   ansible.builtin.uri:
     url: "https://{{ role_nutanix_prism_api_url_base }}/PrismGateway/services/rest/v2.0/tasks/{{ role_nutanix_prism_monitor_task_uuid }}"
     method: GET
-    validate_certs: "{{ role_nutanix_prism_monitor_task_validate_certs }}"
+    validate_certs: "{{ role_nutanix_prism_monitor_task_host_validate_certs }}"
     status_code: 200
     headers:
       Authorization: "{{ role_nutanix_prism_api_auth_string_b64 }}"

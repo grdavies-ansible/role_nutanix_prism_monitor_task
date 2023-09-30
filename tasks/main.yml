@@ -5,10 +5,10 @@
     name: grdavies.role_nutanix_prism_api
   vars:
     role_nutanix_prism_api_host: "{{ role_nutanix_prism_monitor_task_host }}"
-    role_nutanix_prism_api_username: "{{ role_nutanix_prism_monitor_task_username }}"
-    role_nutanix_prism_api_password: "{{ role_nutanix_prism_monitor_task_password }}"
-    role_nutanix_prism_api_port: "{{ role_nutanix_prism_monitor_task_port }}"
-    role_nutanix_prism_api_validate_certs: "{{ role_nutanix_prism_monitor_task_validate_certs }}"
+    role_nutanix_prism_api_host_username: "{{ role_nutanix_prism_monitor_task_host_username }}"
+    role_nutanix_prism_api_host_password: "{{ role_nutanix_prism_monitor_task_host_password }}"
+    role_nutanix_prism_api_host_port: "{{ role_nutanix_prism_monitor_task_host_port }}"
+    role_nutanix_prism_api_host_validate_certs: "{{ role_nutanix_prism_monitor_task_host_validate_certs }}"
     role_nutanix_prism_api_debug: "{{ role_nutanix_prism_monitor_task_debug }}"
 
 - name: Debug variables

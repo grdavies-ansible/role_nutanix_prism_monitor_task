@@ -1,10 +1,10 @@
 ---
 # defaults file for role_nutanix_prism_monitor_task
 role_nutanix_prism_monitor_task_host: ""
-role_nutanix_prism_monitor_task_username: ""
-role_nutanix_prism_monitor_task_password: ""
-role_nutanix_prism_monitor_task_port: 9440
-role_nutanix_prism_monitor_task_validate_certs: false
+role_nutanix_prism_monitor_task_host_username: ""
+role_nutanix_prism_monitor_task_host_password: ""
+role_nutanix_prism_monitor_task_host_port: 9440
+role_nutanix_prism_monitor_task_host_validate_certs: false
 role_nutanix_prism_monitor_task_debug: false
 role_nutanix_prism_monitor_task_uuid: ""
 role_nutanix_prism_monitor_task_retries: 60
