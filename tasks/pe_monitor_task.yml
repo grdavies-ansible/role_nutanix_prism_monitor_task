@@ -15,6 +15,12 @@
   retries: "{{ role_nutanix_prism_monitor_task_retries }}"
   delay: "{{ role_nutanix_prism_monitor_task_retry_delay }}"
 
+- name: Debug role_nutanix_prism_monitor_task_result
+  debug:
+    var: role_nutanix_prism_monitor_task_result
+  when:
+    - role_nutanix_prism_monitor_task_debug
+
 - name: "PE task failed {{ role_nutanix_prism_monitor_task_uuid }}."
   ansible.builtin.fail:
     msg:
