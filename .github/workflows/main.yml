@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: run ansible-lint
         uses: ansible/ansible-lint@main
-        with:
-          path: "."
 
   release:
     needs:
