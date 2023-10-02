@@ -3,7 +3,7 @@ name: Ansible Galaxy
 on:
   push:
     tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
+      - "[0-9]+.[0-9]+.[0-9]+"
   workflow_dispatch:
 
 jobs:
@@ -16,14 +16,12 @@ jobs:
         uses: ansible/ansible-lint@main
 
   release:
+    name: Publish to Ansible Galaxy
     needs:
       - lint
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
-
-      - name: galaxy
-        uses: buluma/galaxy-action@v1.0.3
+      - uses: actions/checkout@v4
+      - uses: robertdebock/galaxy-action@1.2.1
         with:
-          galaxy_api_key: ${{ secrets.galaxy_api_key }}
+          galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
